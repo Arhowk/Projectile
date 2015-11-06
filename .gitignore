@@ -41,3 +41,55 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Cache crap that Valve autogenerates
+*.bin
+
+# Ignore map overviews
+content/rpg_tests_new/materials/overviews/*
+game/rpg_tests_new/materials/overviews/*
+game/rpg_tests_new/resource/overviews/*
+game/rpg_tests_new/tool_asset_info.bin
+
+
+# Ignore all particles
+*.vpcf_c
+
+#Ignore all compiled mats
+*.vmat_c
+
+#Ignore all compiled sounds
+*.vsndevts_c
+
+# Map Files
+*.vpk
+game/rpg_tests_new/tools_thumbnail_cache.bin
+content/rpg_tests_new/materials/overviews/template_map.tga
+game/rpg_tests_new/materials/overviews/template_map.vmat_c
+game/rpg_tests_new/maps/template_map.vpk
+*.vpk
+content/rpg_tests_new/materials/overviews/template_map.tga
+*.vmat_c
+*.vtex_c
+*.vtex_c
+*.vjs_c
+*.vmdl_c
+*.vxml_c
+game/rpg_tests_new/panorama/styles/custom_game/buff_list.vcss_c
+*.vcss_c
+game/rpg_tests_new/models/quest_mark.vmesh_c
+*.vmesh_c
+game/rpg_tests_new/panorama_debugger.cfg
+content/rpg_tests_new/materials/tilesets/Cracked.png
+content/rpg_tests_new/materials/tilesets/Tiled_Path.png
+content/rpg_tests_new/materials/tilesets/Grass_Dark.png
+content/rpg_tests_new/materials/tilesets/Tar.png
+content/rpg_tests_new/panorama/images/custom_game/char_screen/skill_tree/berserker_rage_tree.png
+content/rpg_tests_new/panorama/images/custom_game/char_screen/skill_tree/berserker_summon_tree.png
+content/rpg_tests_new/panorama/images/custom_game/char_screen/skill_tree/berserker_spirit_tree.png
+*.wav
+*.mp3
+content/rpg_tests_new/panorama/images/custom_game/tooltips/background.png
+content/rpg_tests_new/panorama/images/custom_game/tooltips/border_transparent.png
+content/rpg_tests_new/panorama/images/custom_game/tooltips/legendary_background.pdn
+content/rpg_tests_new/panorama/images/custom_game/tooltips/legendary_frame.png
