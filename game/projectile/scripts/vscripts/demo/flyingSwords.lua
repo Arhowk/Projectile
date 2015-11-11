@@ -10,6 +10,10 @@
 --     - Radial Velocity (swords tumbling as they go away from the caster)
 --     - Acceleration (swords going towards the caster after they land)
 --     - Position Tracking (dealing damage to units along the sword's path)
+--     - Followers (adding additional fx's when the sword is sliding)
+--     - Scaling (scaling the followers as time goes on)
+
+
 local SWORD_FX = ""
 local SWORD_FOLLOWER_TRAIL = ""
 local SWORD_LAUNCH_GAP = 90

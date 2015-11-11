@@ -1,3 +1,8 @@
+--Last Updated: 10 November 2015
+--Spell Library: This library is built to handle custom particles and projectiles for use in spell systems.
+--The main advantage this library has over other libraries such as the default CreateLinearProjectile or bmd's physics library is two things
+--     - The must have feature- Missiles are calculated clientside (instead of calculated serverside) which causes the projectiles to be entirely lagless and 100% accurate without the use of SetVelocity or tracking projectiles
+--     - An incredible amount of features! With a super sleek API and some great demos.
 
 if not Spell then
 	Spell = {}
