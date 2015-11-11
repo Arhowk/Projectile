@@ -1,0 +1,12 @@
+--Diablo 2's Blessed Hammer - On crack!
+--When cast, it cast four blessed hammers at 90 degree angles to eachother that travel according to the blessed hammer path.
+--After reaching a set distance from the caster, they will stop moving and orbit the caster at that radius.
+--After a second at that position, a ward will spawn somewhere along this radius. The ward has a gravitational pull towards all hammers.
+--Pretty dope.
+--Example of:
+--    Functional Velocity (hammers speed up over time)
+--    Functional Posititon (hammers move away from origin over time)
+--    Multiple Step Projectiles (hammers change movement profiles after reaching a radius)
+--    Gravitiational Pull (from the wards)
+--    More unit collision
+--    Angular Acceleration (spinning the hammers in circles)
