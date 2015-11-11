@@ -113,9 +113,8 @@ function CastFlyingSword(keys)
 			--Wait a small delay before sending the acceleration
 			Timers:CreateTimer(1, function()
 
-				--Give the particle a constant radial acceleration towards the caster.
-				--This is effectively equivalent to a constant acceleration towardst hec aster if the caster weren't to move
-				--Actually, I'll do this later. Constant acceleration it is.
+				--Give the particle an acceleration towards the caster's original location.
+				--If we wanted it to try and follow the caster, we'd use SetRadialAcceleration here. SetRadialAcceleration and SetAcceleration are equivalent of the origin doesn't change, but SetRadialAcceleration wants an entity
 				--Note the third argument. It is the normalized angle of acceleration of the particle.
 				--By subtracting the current position from the caster's origin, we obtain a vector that points towards the caster from the particle
 				--Normalize this vector so it maintains the right speed.
@@ -138,6 +137,9 @@ function CastFlyingSword(keys)
 				--For these followers, we will scale them over time (since the sword is accelerating)
 				local followerGlow = Spell:Follower(sword, SWORD_FOLLOWER_GLOW)
 				local followerDebris = Spell:Follower(sword, SWORD_FOLLOWER_DEBRIS)
+
+
+				--{TODO} This scaling stuff has to be done in the particle editor
 
 				--Initial scale set to 0, since they're invisible when they start
 				Spell:SetScale(followerGlow, 0)
