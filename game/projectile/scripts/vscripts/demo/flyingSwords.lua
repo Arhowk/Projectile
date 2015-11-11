@@ -13,14 +13,51 @@
 --     - Followers (adding additional fx's when the sword is sliding)
 --     - Scaling (scaling the followers as time goes on)
 
+--Defining some constants
 
+--The particle name of the sword to use
 local SWORD_FX = ""
+
+--The particle name of the trail effect to put on the particle (not scaled at all)
 local SWORD_FOLLOWER_TRAIL = ""
+
+--The particle name of the red magma glow on the sword (scaled linearly)
+local SWORD_FOLLOWER_GLOW = ""
+
+--The particle name of the debris splattering from the sword (scaled linearly)
+local SWORD_FOLLOWER_DEBRIS = ""
+
+--The particle to show when the sword collides with a unit (realism factor) (shows on the target)
+local BLOOD_FX = ""
+
+--The sound to play when the sword hits the ground
+local TOUCHDOWN_SFX = ""
+
+--The sound to play while the sword is grinding along the earth
+local GRIND_SFX = ""
+
+--The sound to play when the sword disappears
+local DISAPPEAR_SFX = ""
+
+--The sound to play when the 
+local CLASH_SFX = 
+
+--The gap of theta between launches of the sword, to cover area nicely
 local SWORD_LAUNCH_GAP = 90
+
+--The variation in degrees of the launch angle (theta, too lazy to add phi variation)
 local SWORD_LAUNCH_VARITAION = 45
+
+--The speed of the sword when it is launched initially from the hero
 local SWORD_LAUNCH_SPEED = 90
+
+--The arc of the launch, also known as phi in spherical coordinates
 local SWORD_LAUNCH_ARC = 45
 
+--How much damage to deal
+local DAMAGE = 50
+
+--This will be the entry point from the data driven ability
 function CastFlyingSword(keys)
 	--Get the caster- important for positioning information and whatnot
 	local caster = keys.caster
@@ -68,6 +105,11 @@ function CastFlyingSword(keys)
 		--When the swords hit the bottom, begin the second phase of the spell.
 		Spell:OnGroundHit(sword, function(particleIndex, position)
 
+			--Play a sound effect for cool effects.
+			--The Spell convenience method isn't really needed here but im using it anyway
+			Spell:EmitSound(position, TOUCHDOWN_SFX)
+
+
 			--Wait a small delay before sending the acceleration
 			Timers:CreateTimer(1, function()
 
@@ -78,6 +120,15 @@ function CastFlyingSword(keys)
 				--By subtracting the current position from the caster's origin, we obtain a vector that points towards the caster from the particle
 				--Normalize this vector so it maintains the right speed.
 				Spell:SetAcceleration(sword, SWORD_ACCELERATION, (caster:GetAbsOrigin() - position):Normalized())
+
+				--Sets the timeout for the sword. We can specify this in two ways
+				--     Distance: Have the missile expire after X units travelled
+				--     Time: Have the missile expire after X seconds
+				--     Function: Have a function thats called every 0.03 seconds to see if the missile to expire
+				--     Note that the OnUnitHit tree of functions can also return true to terminate the missile
+				--For symmetry sake, lets expire when it has travelled twice the initial distance from the caster
+				--so if it was a circle, the swords would travel from one end of the circle to the other
+				Spell:SetExpireDistance(sword, math.sqrt(math.pow(caster:GetAbsOrigin().y - position.x, 2) + math.pow(caster:GetAbsOrigin().y - position.y, 2)) * 2)
 
 				--Gives the sword some follower effects
 				--We can do stuff to follower if we want to (everything would be relative to the particle) but theres no point.
@@ -98,20 +149,47 @@ function CastFlyingSword(keys)
 				Spell:SetScaleVelocity(followerGlow, 1)
 				Spell:SetScaleVelocity(followerDebris, 1)
 
+				--This is a little bit different because the grind gets louder and louder over time.
+				--It is also supposed to follow the sword.
+				local grindSound = Spell:FollowerSound(sword, GRIND_SFX)
+
+				--Set the initial volume to nothing, since you can't hear it when it isn't moving.
+				Spell:SetVolume(grindSound, 0)
+
+				--Increase the sound over time, using the same syntax as before
+				Spell:SetVolumeVelocity(grindSound, 1)
 
 				--When an enemy unit is hit by a sword, deal some damage, sound, et. al.
 				--Note that the caster has to be passed in so the system knows whos an enemy.
 				--Also note that this system does NOT use bounding box- it uses collision size.
-				Spell:OnEnemyUnitHit(sword, caster, function(particleIndex, position)
+				Spell:OnEnemyUnitHit(sword, caster, function(target, particleIndex, position)
 
 					--Play a "clash!" sound
-					--{TODO}
+					--The spell sound methods aren't really needed here since its not a dynamic sound.
+					--Again, Spell:EmitSound is just a convenience method that I use to demo the system.
+					Spell:EmitSound(position, CLASH_SFX)
 
 					--Show blood on the unit
-					--{TODO}
+					--It uses ServerParticle because the particle isn't moving, thus no need to have it lagless.
+					--Server particles also have less overhead so its good to use them when possible
+					Spell:ServerParticle(target, BLOOD_FX)
 
 					--Deal some damage to the unit hit
-					--{TODO}
+					--This is just a convenience method. Since its part of the spell library it deals spell damage.
+					Spell:DealDamage(target, caster, DAMAGE)
+				end)
+
+				--When the sword expires, play a sound and emit a cool effect
+				Spell:OnExpire(sword, function(particleIndex, position)
+
+					--Play the sound
+					Spell:EmitSound(position, EXPIRE_SFX)
+
+					--Emit the cool effect
+					Spell:ServerParticle(position, EXPIRE_FX)
+
+					--The projectile is being taken care of, so are the followers and everything else so theres no need to worry about that
+
 				end)
 			end)
 		end)
