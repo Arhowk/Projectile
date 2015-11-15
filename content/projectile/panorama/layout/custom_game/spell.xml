@@ -1,0 +1,9 @@
+<root>
+	<scripts>
+    <include src="file://{resources}/scripts/custom_game/spell.js" /> 
+	</scripts>
+	
+	<Panel>
+	
+	</Panel>
+</root>

@@ -22,6 +22,7 @@ require('libraries/notifications')
 require('libraries/animations')
 -- This library can be used for performing "Frankenstein" attachments on units
 require('libraries/attachments')
+require('spell/Spell')
 
 
 -- These internal libraries set up projectile's events and processes.  Feel free to inspect them/change them if you need to.

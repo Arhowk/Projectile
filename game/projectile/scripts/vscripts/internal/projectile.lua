@@ -111,7 +111,7 @@ function Projectile:_InitProjectile()
   if PROJECTILE_DEBUG_SPEW then
     spew = 1
   end
-  Convars:RegisterConvar('projectile_spew', tostring(spew), 'Set to 1 to start spewing projectile debug info.  Set to 0 to disable.', 0)
+  --Convars:RegisterConvar('projectile_spew', tostring(spew), 'Set to 1 to start spewing projectile debug info.  Set to 0 to disable.', 0)
 
   -- Change random seed
   local timeTxt = string.gsub(string.gsub(GetSystemTime(), ':', ''), '0','')

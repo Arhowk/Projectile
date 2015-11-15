@@ -7,7 +7,7 @@
 --Spell Systems Used
 --     - Gravity (swords falling)
 --     - Velocity (inital sword velocity)
---     - Radial Velocity (swords tumbling as they go away from the caster)
+--     - Angular Velocity (swords tumbling as they go away from the caster)
 --     - Acceleration (swords going towards the caster after they land)
 --     - Position Tracking (dealing damage to units along the sword's path)
 --     - Followers (adding additional fx's when the sword is sliding)
@@ -139,18 +139,6 @@ function CastFlyingSword(keys)
 				local followerDebris = Spell:Follower(sword, SWORD_FOLLOWER_DEBRIS)
 
 
-				--{TODO} This scaling stuff has to be done in the particle editor
-
-				--Initial scale set to 0, since they're invisible when they start
-				Spell:SetScale(followerGlow, 0)
-				Spell:SetScale(followerDebris, 0)
-
-				--Scale up the followers at a rate of 100% per 1 second.
-				--Note the syntax, SetScaleVelocity. It is labelled Velocity instead of Rate so that the naming conventions stay static.
-				--However, it isn't SetScalePosition because SetScale can be used outside of a generic Position/Velocity/Acceleration setup
-				Spell:SetScaleVelocity(followerGlow, 1)
-				Spell:SetScaleVelocity(followerDebris, 1)
-
 				--This is a little bit different because the grind gets louder and louder over time.
 				--It is also supposed to follow the sword.
 				local grindSound = Spell:FollowerSound(sword, GRIND_SFX)
@@ -167,7 +155,7 @@ function CastFlyingSword(keys)
 				Spell:OnEnemyUnitHit(sword, caster, function(target, particleIndex, position)
 
 					--Play a "clash!" sound
-					--The spell sound methods aren't really needed here since its not a dynamic sound.
+					--The spell sound methods aren't really needed here since its Wnot a dynamic sound.
 					--Again, Spell:EmitSound is just a convenience method that I use to demo the system.
 					Spell:EmitSound(position, CLASH_SFX)
 
@@ -179,6 +167,7 @@ function CastFlyingSword(keys)
 					--Deal some damage to the unit hit
 					--This is just a convenience method. Since its part of the spell library it deals spell damage.
 					Spell:DealDamage(target, caster, DAMAGE)
+
 				end)
 
 				--When the sword expires, play a sound and emit a cool effect
