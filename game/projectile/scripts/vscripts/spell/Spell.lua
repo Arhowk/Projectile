@@ -80,17 +80,17 @@ function Spell.Periodic()
 				local func = x.func
 				if x.isParticle then
 					if x.movementType == Spell.Acceleration then
-						x.velocity = x.velocity + Spell:_Evaluate(func, x, DELTA, Time() - y.startTime) * DELTA
+						x.velocity = x.velocity + Spell:_Evaluate(func, x, DELTA, Time() - x.start) * DELTA
 						x.position = x.position + x.velocity * DELTA
 					elseif x.movementType == Spell.Velocity then
-						local vel =  Spell:_Evaluate(func, x, DELTA, Time() - y.startTime)
+						local vel =  Spell:_Evaluate(func, x, DELTA, Time() -x.start)
 						x.velocity = vel
 						x.position = x.position + vel * DELTA
 						if x.data and x.data.faceForward then
 							ParticleManager:SetParticleControl(x.missileStruct.particle, 1, vel)
 						end
 					else
-						x.position = x.origin + Spell:_Evaluate(func, x, DELTA, Time() - y.startTime)
+						x.position = x.origin + Spell:_Evaluate(func, x, DELTA, Time() - x.start)
 					end
 
 				end
@@ -119,6 +119,11 @@ function Spell.Periodic()
 	end
 
 	for _,c in pairs(Spell.Handlers) do
+		print("Debug Draw" , c.position)
+        local alpha = 1
+        local color = Vector(200,0,0)
+        local radius = 100
+        DebugDrawSphere(c.position, color, alpha, radius, true, .01)
 		if Time() - c.duration > c.start then
 			c.deleted = true
 			c.alive = false
@@ -189,8 +194,8 @@ function Spell:Particle(particleName, optionalOriginOrOwner, data)
 			print("[ERROR] [Spell] Origin-based spawning depreceated")
 			local p = ParticleManager:CreateParticle(particleName, PATTACH_CUSTOMORIGIN, nil)
 			Spell:_InitializeMissile(p, optionalOriginOrOwner, data)
-			ParticleManager:SetParticleControl(p, controlIndex or 0, optionalOriginOrOwner + Vector(0,0,100)) 
-			ParticleManager:SetParticleControl(p, 0, optionalOriginOrOwner + Vector(0,0,100)) 
+			ParticleManager:SetParticleControl(p, controlIndex or 0, optionalOriginOrOwner + Vector(0,0,99900)) 
+			ParticleManager:SetParticleControl(p, 0, optionalOriginOrOwner + Vector(0,0,99900)) 
 			return p
 		else
 			local p = ParticleManager:CreateParticle(particleName, PATTACH_WORLDORIGIN, nil)
@@ -240,7 +245,7 @@ function Spell:SetPosition(missile, func, ...)
 			Spell.Handlers[missile].args[func] = ...
 			Spell.Handlers[missile].position = Spell:_Evaluate(func, missile)
 			Spell.Handlers[missile].movementType = Spell.Position
-			Spell:_UpdateFlag(missile, Spell.Position, {func=func, initial=Spell:_Evaluate(func, missile)})
+			Spell:_UpdateFlag(missile, Spell.Position, {func=func, initial=Spell:_Evaluate(func, missile), args=...})
 		end
 	elseif type(missile) == "table" then
 		print("[ERROR] [Spell] Attempt to give non- ")
