@@ -1,5 +1,5 @@
 var globalContext=$.GetContextPanel(); while(true){if(globalContext.id == "CustomUIRoot"){break;}else{globalContext = globalContext.GetParent();}}; globalContext=globalContext.data(); gCtx=globalContext;
-var Spell = {NoMovement: 0, Position: 1, Velocity: 2, Acceleration:3, Create:999, PositionCP: 0, RotationCP: 0, Functions: {}, DefineFunction:1000}
+var Spell = {NoMovement: 0, Position: 1, Velocity: 2, Acceleration:3, Create:999, PositionCP: 1, RotationCP: 0, Functions: {}, DefineFunction:1000}
 var lastTime
 var missiles = {}    
 
@@ -89,7 +89,7 @@ function Periodic(){
 				Particles.DestroyParticleEffect(y.particle, false)
 				missiles[x] = null
 			}else{
-				Particles.SetParticleControl(y.particle, y.positionCP, Add(y.position, [0,0,200]))
+				Particles.SetParticleControl(y.particle, y.positionCP, y.position)
 			}
 		}
 		  
@@ -97,7 +97,7 @@ function Periodic(){
 	if(false){
 		
 	}else{
-		$.Schedule(0.03, Periodic);
+		$.Schedule(0.0005, Periodic);
 	}
 }
 if(false){
@@ -117,8 +117,8 @@ function InitMissile(particle,data, origin){
 		position: origin,
 		velocity: [0,0,0],
 		acceleration: [0,0,0],
-		positionCP: data.positionCP || Spell.PositionCP,
-		rotationCP: data.rotationCP || Spell.RotationCP,
+		positionCP: data.positionCp,
+		rotationCP: data.rotationCp,
 		movementType: Spell.NoMovement,
 		startTime: Time(),
 		duration: data.duration,

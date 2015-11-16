@@ -17,7 +17,7 @@
     
     "precache"
     {
-      "particle"          "particles/blessed_hammer.vpcf"
+      "particle"          "particles/rapier_particle.vpcf"
       "soundfile"         "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
     }
 

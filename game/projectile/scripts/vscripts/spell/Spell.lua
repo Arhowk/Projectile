@@ -33,7 +33,30 @@ function Spell:EmitSound(soundName, source)
 	EmitSoundOnLocationWithCaster(soundName, source,nil) 
 end
 
+function Spell:Damage(caster,target,source)
 
+end
+
+function Spell:Stun(target, duration)
+
+end
+
+function Spell:Follower(host, fx)
+
+end
+
+function Spell:ServerParticle(fx, caster, data)
+
+end
+
+--Collider Code
+function Spell:SphericalCollider(f,g)
+
+end
+
+function Spell:ColliderGroup()
+
+end
 
 
 
@@ -119,11 +142,6 @@ function Spell.Periodic()
 	end
 
 	for _,c in pairs(Spell.Handlers) do
-		print("Debug Draw" , c.position)
-        local alpha = 1
-        local color = Vector(200,0,0)
-        local radius = 100
-        DebugDrawSphere(c.position, color, alpha, radius, true, .01)
 		if Time() - c.duration > c.start then
 			c.deleted = true
 			c.alive = false

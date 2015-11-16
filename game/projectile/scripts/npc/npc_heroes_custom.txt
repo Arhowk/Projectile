@@ -8,7 +8,7 @@
 	    "Ability1"        "projectile_demo_poison_nova" 
 	    "Ability2"        "projectile_demo_flying_swords" 
 	    "Ability3"        "projectile_demo_blessed_hammer" 
-	    "Ability4"        "projectile_empty4"
+	    "Ability4"        "berserker_thunder_slam"
 	    "Ability5"        "projectile_empty5"
 	    "Ability6"        "projectile_empty6"
 	    "Ability7"        ""
